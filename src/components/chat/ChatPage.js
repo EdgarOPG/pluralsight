@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
 import io from 'socket.io-client';
 import * as chatActions from '../../actions/chatActions';
 import {connect} from 'react-redux';
@@ -44,11 +44,15 @@ class ChatPage extends React.Component {
                     ))}
                 </ul>
                 <input type="text" value={this.state.chatMessage.body} onChange={this.onMessageChange} />
-                <button onClick={()=>this.handleOnclick(this.socket) } >Send ! </button>
+                <button onClick={()=>this.handleOnclick(this.socket)} >Send ! </button>
             </div>
-        )
+        );
     }
 }
+
+ChatPage.propTypes = {
+    messages: PropTypes.array.isRequired
+};
 
 function mapStateToPros(state, ownProps){
     return {

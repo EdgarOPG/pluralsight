@@ -49,7 +49,7 @@ function mapStateToProps(state, ownProps){
 function mapDispatchToProps(dispatch){
     return {
         actions: bindActionCreators(courseActions, dispatch)
-    }
+    };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CoursesPage);

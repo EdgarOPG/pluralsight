@@ -7,7 +7,7 @@ import CoursesPage from './components/course/CoursesPage';
 import ChatPage from './components/chat/ChatPage';
 
 export default(
-  <Route path='/' component={App}>
+  <Route path="/" component={App}>
     <IndexRoute component={HomePage} />
     <Route path="courses" component={CoursesPage} />
     <Route path="chat" component={ChatPage} />
