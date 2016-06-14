@@ -27,9 +27,9 @@ const CourseForm = ({course, allAuthors, onSave, onChange, loading, error}) => {
                 onChange ={onChange}
                 error={error.title} />
             <TextInput
-                name="title"
-                label="Title"
-                value={course.title}
+                name="length"
+                label="length"
+                value={course.length}
                 onChange ={onChange}
                 error={error.title} />
         </form>
