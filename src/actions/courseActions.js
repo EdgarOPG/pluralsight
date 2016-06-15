@@ -1,5 +1,6 @@
 import * as types from './actionTypes';
 import courseApi from '../api/mockCourseApi'; 
+import {startAjaxCall, ajaxCallError} from './ajaxStatusActions';
 
 export function createCourse(course){
     return {type: types.CREATE_COURSE, course};
@@ -19,6 +20,7 @@ export function updateCourseSucess(course){
 
 export function loadCourses(){
     return dispatch=> {
+        dispatch(startAjaxCall());
         return courseApi.getAllCourses().then(courses => {
             dispatch(loadCoursesSucess(courses));
         }).catch(error =>{
@@ -29,12 +31,14 @@ export function loadCourses(){
 
 export function saveCourse(course){
     return dispatch=> {
+        dispatch(startAjaxCall());
         return courseApi.saveCourse(course).then(savedCourse => {
             if(course.id)
                 dispatch(updateCourseSucess(savedCourse));
             else
                 dispatch(createCourseSucess(savedCourse));
         }).catch(error =>{
+            dispatch(ajaxCallError(error));
             throw(error);
         });
     };
