@@ -12,6 +12,7 @@ class ManageCoursePage extends React.Component{
             error:{}
         };
         this.updateCourseState = this.updateCourseState.bind(this);
+        this.saveCourse = this.saveCourse.bind(this);
     }
 
     updateCourseState(event){
@@ -21,14 +22,21 @@ class ManageCoursePage extends React.Component{
         return this.setState({course: course});
     }
 
+    saveCourse(event){
+        event.preventDefault();
+        this.props.actions.saveCourse(this.state.course);
+        this.context.router.push('/courses');
+    }
+
     render(){
         return(
             <div>
                 <CourseForm 
-                    course={this.state.course} 
+                    course={this.props.course} 
                     allAuthors={this.props.authors}
                     error={this.state.error}
                     onChange={this.updateCourseState}
+                    onSave={this.saveCourse}
                 />
             </div>
         );
@@ -37,11 +45,28 @@ class ManageCoursePage extends React.Component{
 
 ManageCoursePage.propTypes = {
     course: PropTypes.object.isRequired,
-    authors: PropTypes.array.isRequired
+    authors: PropTypes.array.isRequired,
+    actions: PropTypes.object.isRequired
 };
 
+ManageCoursePage.contextTypes = {
+    router: PropTypes.object
+};
+
+function getCourseById(courses, courseId){
+    let result = courses.filter(course=>(course.id==courseId));
+    if(result.length>0) return result[0];
+    return null;
+}
+
 function mapStateToProps(state, ownProps){
+    const courseId = ownProps.params.id;
     let course ={id:'', watchHref:'', title:'', authorId:'', length:'', category: ''};
+
+    if(courseId && state.courses.length>0){
+        course = getCourseById(state.courses, courseId);
+    }
+
     const formatAuthorsOptions = state.authors.map(author => {
         return {
             value: author.id,
@@ -57,7 +82,7 @@ function mapStateToProps(state, ownProps){
 
 function mapDispatchToProps(dispatch){
     return {
-        actions: bindActionCreators(courseActions)
+        actions: bindActionCreators(courseActions,dispatch)
     };
 }
 
