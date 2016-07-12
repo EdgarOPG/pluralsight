@@ -13,7 +13,7 @@ class ChatPage extends React.Component {
         this.handleOnclick = this.handleOnclick.bind(this);  
         this.onMessageChange = this.onMessageChange.bind(this);
         let that =this;
-        this.socket =io(`${location.protocol}//${location.hostname}:3000`);
+        this.socket =io(`${location.protocol}//${location.hostname}:3003`);
         this.socket.on('chat message', function(msg){
                 that.props.fetchMessage(msg);
             });
